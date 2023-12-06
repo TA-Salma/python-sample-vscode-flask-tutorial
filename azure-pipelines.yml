@@ -5,8 +5,9 @@
 trigger:
  - main
 
-pool:
-  vmImage: "windows-latest"
+ pool:
+   vmImage: 'ubuntu-latest'
+
  steps:
  - task: Maven@4
    inputs:
