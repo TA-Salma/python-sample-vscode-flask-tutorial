@@ -9,17 +9,6 @@ pool:
    vmImage: 'ubuntu-latest'
 
 steps:
- - task: Maven@4
-   inputs:
-     mavenPomFile: 'pom.xml'
-     mavenOptions: '-Xmx3072m'
-     javaHomeOption: 'JDKVersion'
-     jdkVersionOption: '1.11'
-     jdkArchitectureOption: 'x64'
-     publishJUnitResults: false
-     testResultsFiles: '**/surefire-reports/TEST-*.xml'
-     goals: 'package'
-
  - script: |
      pip install pytest pytest-azurepipelines pytest-cov
      pytest --cov=./ --cov-report=xml
