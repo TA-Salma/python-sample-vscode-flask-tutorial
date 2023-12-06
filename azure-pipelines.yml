@@ -5,10 +5,10 @@
 trigger:
  - main
 
- pool:
+pool:
    vmImage: 'ubuntu-latest'
 
- steps:
+steps:
  - task: Maven@4
    inputs:
      mavenPomFile: 'pom.xml'
@@ -20,15 +20,15 @@ trigger:
      testResultsFiles: '**/surefire-reports/TEST-*.xml'
      goals: 'package'
 
-- script: |
-    pip install pytest pytest-azurepipelines pytest-cov
-    pytest --cov=./ --cov-report=xml
-    pytest
-  displayName: 'pytest'
+ - script: |
+     pip install pytest pytest-azurepipelines pytest-cov
+     pytest --cov=./ --cov-report=xml
+     pytest
+   displayName: 'pytest'
 
-- task: PublishCodeCoverageResults@1
-  inputs:
-    codeCoverageTool: "Cobertura"
-    summaryFileLocation: "$(System.DefaultWorkingDirectory)/**/coverage.xml"
-    reportDirectory: "$(System.DefaultWorkingDirectory)/**/htmlcov"
-    failIfCoverageEmpty: true
+ - task: PublishCodeCoverageResults@1
+   inputs:
+     codeCoverageTool: "Cobertura"
+     summaryFileLocation: "$(System.DefaultWorkingDirectory)/**/coverage.xml"
+     reportDirectory: "$(System.DefaultWorkingDirectory)/**/htmlcov"
+     failIfCoverageEmpty: true
