@@ -6,18 +6,30 @@
 trigger:
 - main
 
-pool:
-  vmImage: "windows-latest"
 strategy:
   matrix:
-    Python37:
-      python.version: '3.7'
+    jdk10_linux:
+      imageName: "ubuntu-latest"
+      jdkVersion: "1.10"
+    jdk11_windows:
+      imageName: "windows-latest"
+      jdkVersion: "1.11"
+  maxParallel: 2
+
+pool:
+  vmImage: $(imageName)
 
 steps:
-- task: UsePythonVersion@0
+- task: Maven@4
   inputs:
-    versionSpec: '$(python.version)'
-  displayName: 'Use Python $(python.version)'
+    mavenPomFile: "pom.xml"
+    mavenOptions: "-Xmx3072m"
+    javaHomeOption: "JDKVersion"
+    jdkVersionOption: $(jdkVersion)
+    jdkArchitectureOption: "x64"
+    publishJUnitResults: true
+    testResultsFiles: "**/TEST-*.xml"
+    goals: "package"
 
 - script: |
     python -m pip install --upgrade pip
