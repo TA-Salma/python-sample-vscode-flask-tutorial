@@ -25,13 +25,14 @@ steps:
   displayName: 'Install dependencies'
 
 - script: |
-    pip install pytest pytest-azurepipelines
+    pip install pytest pytest-azurepipelines pytest-cov
+    pytest --cov=./ --cov-report=xml
     pytest
   displayName: 'pytest'
 
 - task: PublishCodeCoverageResults@1
   inputs:
-    codeCoverageTool: "JaCoCo"
-    summaryFileLocation: "$(System.DefaultWorkingDirectory)/**/site/jacoco/jacoco.xml"
-    reportDirectory: "$(System.DefaultWorkingDirectory)/**/site/jacoco"
+    codeCoverageTool: "Cobertura"
+    summaryFileLocation: "$(System.DefaultWorkingDirectory)/**/coverage.xml"
+    reportDirectory: "$(System.DefaultWorkingDirectory)/**/htmlcov"
     failIfCoverageEmpty: true
